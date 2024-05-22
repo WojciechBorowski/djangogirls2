@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Account Settings</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'css/account_settings.css' %}">
+</head>
+<body>
+    <h1>Account Settings</h1>
+    <h2>User Information</h2>
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+
+    <h2>Change Password</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Change Password</button>
+    </form>
+</body>
+</html>

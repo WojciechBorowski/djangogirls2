@@ -1,0 +1,38 @@
+{% extends 'blog/base.html' %}
+
+{% block content %}
+    <div class="post">
+        {% if post.published_date %}
+            <div class="date">
+                {{ post.published_date }}
+            </div>
+        {% endif %}
+        <h1>{{ post.title }}</h1>
+        <p>{{ post.text|linebreaksbr }}</p>
+
+        <!-- Formularz dodawania komentarza -->
+        {% if user.is_authenticated %}
+            <h2>Dodaj komentarz</h2>
+            <form method="post" action="{% url 'post_detail' pk=post.pk %}">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit">Dodaj komentarz</button>
+            </form>
+        {% else %}
+            <!-- Napis o zalogowaniu się -->
+            <p>Aby dodać komentarz, zaloguj się.</p>
+        {% endif %}
+
+        <!-- Wyświetlanie komentarzy -->
+        <h2>Komentarze</h2>
+        {% for comment in comments %}
+            <div class="comment">
+                <p>{{ comment.text|linebreaks }}</p>
+                <p>Autor: {{ comment.author }}</p>
+                <p>Data dodania: {{ comment.created_date }}</p>
+            </div>
+        {% empty %}
+            <p>Brak komentarzy.</p>
+        {% endfor %}
+    </div>
+{% endblock %}
